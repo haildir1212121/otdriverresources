@@ -17,22 +17,17 @@
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
-            slate: {
-              850: '#151f2e',
-              950: '#020617',
-            },
+            slate: { 850: '#151f2e', 950: '#020617' },
           },
           animation: {
-            'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+            'fade-in-up': 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
           },
           keyframes: {
             fadeInUp: {
-              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
               '100%': { opacity: '1', transform: 'translateY(0)' },
             }
           }
@@ -42,383 +37,538 @@
   </script>
 
   <style>
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    /* Premium Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-    /* Background & Glass */
+    /* Visual Effects */
     .bg-grid {
       background-size: 40px 40px;
       background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     }
+    
     .glass {
-      background: rgba(30, 41, 59, 0.7);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
-    /* Interactions */
-    .card-hover { transition: all 0.3s ease; }
+    /* Card Hover Effects */
+    .card-hover {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
     .card-hover:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.15);
-      border-color: rgba(16, 185, 129, 0.3);
+      transform: translateY(-5px);
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.2);
+    }
+
+    /* Login Background */
+    .login-bg {
+        background: radial-gradient(circle at top right, #10b98115 0%, transparent 50%),
+                    radial-gradient(circle at bottom left, #3b82f615 0%, transparent 50%),
+                    #020617;
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans bg-grid overflow-hidden">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans bg-grid overflow-hidden selection:bg-emerald-500/30">
 
-  <header class="sticky top-0 z-50 glass border-b border-slate-800/50 shadow-lg">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 gap-6">
-      <div class="flex items-center gap-3 select-none">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center font-bold text-slate-950 shadow-lg shadow-emerald-500/20">
-          <i class="fa-solid fa-taxi text-lg"></i>
-        </div>
-        <div>
-          <div class="font-bold text-lg leading-tight tracking-tight">Driver Hub</div>
-          <div class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Oregon Taxi</div>
-        </div>
-      </div>
+  <div id="login-screen" class="fixed inset-0 z-[100] login-bg flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="glass w-full max-w-sm p-8 rounded-3xl shadow-2xl animate-fade-in-up border border-slate-700/50">
       
-      <div class="flex-1 max-w-lg hidden md:block group">
-        <div class="relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <i class="fa-solid fa-magnifying-glass text-slate-500 group-focus-within:text-emerald-400 transition-colors"></i>
-          </div>
-          <input type="text" placeholder="Search training, policies, vehicles..." class="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl pl-10 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all placeholder-slate-500" />
+      <div class="flex flex-col items-center mb-8">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/30 mb-4 transform rotate-3">
+           <i class="fa-solid fa-taxi text-2xl text-slate-950"></i>
         </div>
+        <h1 class="text-2xl font-bold tracking-tight">Driver Hub</h1>
+        <p class="text-slate-400 text-sm font-medium">Please sign in to continue</p>
       </div>
 
-      <div class="flex items-center gap-4 text-sm">
-        <button class="relative p-2 text-slate-400 hover:text-white transition-colors">
-          <i class="fa-regular fa-bell text-xl"></i>
-          <span class="absolute top-1.5 right-2 w-2 h-2 bg-emerald-500 rounded-full animate-pulse-slow"></span>
+      <form onsubmit="handleLogin(event)" class="space-y-4">
+        <div class="group">
+           <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1 group-focus-within:text-emerald-400 transition-colors">Username</label>
+           <div class="relative">
+             <i class="fa-solid fa-user absolute left-3 top-3.5 text-slate-500 text-xs transition-colors group-focus-within:text-emerald-400"></i>
+             <input id="username" type="text" class="w-full bg-slate-900/60 border border-slate-700/50 rounded-xl py-3 pl-9 text-sm focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 outline-none transition-all placeholder-slate-600" placeholder="username" required>
+           </div>
+        </div>
+        <div class="group">
+           <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1 group-focus-within:text-emerald-400 transition-colors">Password</label>
+           <div class="relative">
+             <i class="fa-solid fa-lock absolute left-3 top-3.5 text-slate-500 text-xs transition-colors group-focus-within:text-emerald-400"></i>
+             <input id="password" type="password" class="w-full bg-slate-900/60 border border-slate-700/50 rounded-xl py-3 pl-9 text-sm focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 outline-none transition-all placeholder-slate-600" placeholder="••••••••" required>
+           </div>
+        </div>
+
+        <div id="login-error" class="hidden text-rose-400 text-xs text-center bg-rose-500/10 py-2 rounded-lg border border-rose-500/20 animate-pulse">
+          <i class="fa-solid fa-circle-exclamation mr-1"></i> Invalid credentials.
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold shadow-lg shadow-emerald-500/20 transition-all transform active:scale-95 mt-2">
+          Access Portal
         </button>
-        <div class="flex items-center gap-3 pl-4 border-l border-slate-800">
-          <div class="text-right hidden sm:block">
-            <div class="font-semibold text-white">James D.</div>
-            <div class="text-xs text-emerald-400 font-mono">Unit #123</div>
-          </div>
-          <div class="w-10 h-10 rounded-full bg-slate-700 border-2 border-slate-600 overflow-hidden">
-            <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=James" alt="Avatar" class="w-full h-full object-cover">
-          </div>
+      </form>
+
+      <div class="mt-8 pt-6 border-t border-slate-800/50">
+        <div class="text-[10px] text-slate-500 uppercase tracking-widest text-center mb-3">Select Persona</div>
+        <div class="flex justify-center gap-2">
+            <button onclick="fillLogin('admin')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-300 transition-colors">Admin</button>
+            <button onclick="fillLogin('owner')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-300 transition-colors">Owner</button>
+            <button onclick="fillLogin('driver')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-300 transition-colors">Driver</button>
         </div>
       </div>
     </div>
-  </header>
-
-  <div class="flex flex-1 max-w-7xl w-full mx-auto overflow-hidden">
-
-    <aside class="w-64 hidden md:flex flex-col py-6 pr-4">
-      <nav class="flex-1 space-y-2" id="sidebar-container"></nav>
-      <div class="px-4 py-4 m-2 rounded-xl bg-slate-900/50 border border-slate-800 text-center">
-        <div class="text-xs font-medium text-slate-400">System Status</div>
-        <div class="flex items-center justify-center gap-2 mt-1">
-          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span class="text-xs text-emerald-400">Online</span>
-        </div>
-      </div>
-    </aside>
-
-    <main class="flex-1 px-4 py-6 overflow-y-auto relative scroll-smooth" id="main-content">
-
-      <section id="dashboard" class="space-y-6 animate-fade-in-up">
-        
-        <div class="flex items-center justify-between mb-2">
-           <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Dashboard</h1>
-           <span class="text-sm text-slate-400 bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700">Dec 11, 2025</span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          
-          <div class="glass rounded-2xl p-5 card-hover relative overflow-hidden group">
-            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
-            <div class="flex items-start justify-between">
-              <div>
-                <div class="text-sm font-medium text-slate-400 mb-1">Total Earnings</div>
-                <div class="text-3xl font-bold text-white tracking-tight">$185.40</div>
-                <div class="mt-2 text-xs flex items-center gap-1 text-emerald-400">
-                    <i class="fa-solid fa-arrow-trend-up"></i>
-                    <span>+12% vs yesterday</span>
-                </div>
-              </div>
-              <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400">
-                <i class="fa-solid fa-wallet"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="glass rounded-2xl p-5 card-hover relative overflow-hidden group">
-            <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all"></div>
-            <div class="flex items-start justify-between">
-              <div>
-                <div class="text-sm font-medium text-slate-400 mb-1">Lease Owed</div>
-                <div class="text-3xl font-bold text-white tracking-tight">$1,250.00</div>
-                <div class="mt-2 text-xs flex items-center gap-1 text-amber-400">
-                    <i class="fa-regular fa-clock"></i>
-                    <span>Due Friday</span>
-                </div>
-              </div>
-              <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="glass rounded-2xl p-5 card-hover relative overflow-hidden group">
-            <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all"></div>
-            <div class="flex items-start justify-between">
-              <div>
-                <div class="text-sm font-medium text-slate-400 mb-1">Training Videos</div>
-                <div class="text-xl font-bold text-white tracking-tight mb-2">1 Video Pending</div>
-                <button class="text-xs px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition-all active:scale-95" onclick="switchSection('training')">
-                    Watch Now
-                </button>
-              </div>
-              <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
-                <i class="fa-solid fa-play"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <h2 class="text-sm uppercase tracking-wider text-slate-500 font-semibold pl-1 mt-6">Payment Breakdown</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            
-            <div class="glass rounded-xl p-4 flex items-center gap-4 hover:bg-slate-800/50 transition-colors border border-emerald-500/20">
-                <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-lg">
-                    <i class="fa-solid fa-money-bill-wave"></i>
-                </div>
-                <div>
-                    <div class="text-xs text-slate-400">Cash Total</div>
-                    <div class="text-xl font-bold text-emerald-400">$45.00</div>
-                    <div class="text-[10px] text-slate-500">2 Trips</div>
-                </div>
-            </div>
-
-            <div class="glass rounded-xl p-4 flex items-center gap-4 hover:bg-slate-800/50 transition-colors border border-blue-500/20">
-                <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-lg">
-                    <i class="fa-solid fa-building"></i>
-                </div>
-                <div>
-                    <div class="text-xs text-slate-400">Accounts Total</div>
-                    <div class="text-xl font-bold text-blue-400">$85.50</div>
-                    <div class="text-[10px] text-slate-500">3 Trips</div>
-                </div>
-            </div>
-
-            <div class="glass rounded-xl p-4 flex items-center gap-4 hover:bg-slate-800/50 transition-colors border border-purple-500/20">
-                <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 text-lg">
-                    <i class="fa-solid fa-credit-card"></i>
-                </div>
-                <div>
-                    <div class="text-xs text-slate-400">Credit/Debit Total</div>
-                    <div class="text-xl font-bold text-purple-400">$54.90</div>
-                    <div class="text-[10px] text-slate-500">3 Trips</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4">
-          <div class="glass rounded-2xl p-6 flex flex-col gap-4 card-hover">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400"><i class="fa-solid fa-book-open"></i></div>
-                <h2 class="font-semibold text-lg">Library</h2>
-              </div>
-              <button class="text-xs text-slate-400 hover:text-white" onclick="switchSection('training')">View all <i class="fa-solid fa-chevron-right ml-1"></i></button>
-            </div>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                <span class="text-sm">New Driver Orientation</span>
-                <span class="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">Required</span>
-              </div>
-              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                <span class="text-sm">Airport Procedures</span>
-                <span class="text-xs text-slate-400">PDF</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="glass rounded-2xl p-6 flex flex-col gap-4 card-hover">
-             <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                  <div class="p-2 bg-cyan-500/10 rounded-lg text-cyan-400"><i class="fa-solid fa-route"></i></div>
-                  <h2 class="font-semibold text-lg">Recent Trip</h2>
-                </div>
-                <button class="text-xs text-slate-400 hover:text-white" onclick="switchSection('trips')">Log <i class="fa-solid fa-chevron-right ml-1"></i></button>
-              </div>
-              <div class="text-xs text-slate-500 italic mt-auto">
-                <i class="fa-solid fa-clock-rotate-left mr-1"></i> Last trip: 10:32 AM · $22.50
-              </div>
-              <button class="w-full py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm font-medium transition-colors border border-slate-700" onclick="switchSection('trips')">
-                View Full Log
-              </button>
-          </div>
-        </div>
-      </section>
-
-      <section id="training" class="hidden animate-fade-in-up">
-        <div class="flex items-center justify-between mb-6">
-          <h1 class="text-2xl font-bold flex items-center gap-3">
-             <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400"><i class="fa-solid fa-video"></i></div>
-             Training Videos
-          </h1>
-          <button class="text-xs px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700" onclick="switchSection('dashboard')">Back</button>
-        </div>
-        <div class="glass rounded-2xl p-6 space-y-3">
-            <div class="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 hover:bg-slate-800/60 transition-colors group">
-              <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-lg bg-slate-700 flex items-center justify-center text-xl text-slate-400 group-hover:text-emerald-400 group-hover:scale-110 transition-all duration-300">
-                    <i class="fa-solid fa-play"></i>
-                </div>
-                <div>
-                  <div class="font-semibold text-lg group-hover:text-emerald-300 transition-colors">New Driver Orientation</div>
-                  <div class="flex items-center gap-3 text-xs text-slate-400 mt-1">
-                    <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 15 min</span>
-                    <span class="bg-red-500/10 text-red-400 px-2 py-0.5 rounded border border-red-500/20">Required</span>
-                  </div>
-                </div>
-              </div>
-              <button class="mt-4 md:mt-0 px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 transition-all active:scale-95">Watch</button>
-            </div>
-            <div class="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 hover:bg-slate-800/60 transition-colors group">
-              <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-lg bg-slate-700 flex items-center justify-center text-xl text-slate-400 group-hover:text-white group-hover:scale-110 transition-all duration-300">
-                    <i class="fa-solid fa-file-pdf"></i>
-                </div>
-                <div>
-                  <div class="font-semibold text-lg group-hover:text-emerald-300 transition-colors">Airport Procedures</div>
-                  <div class="text-xs text-slate-400 mt-1">PDF Reference</div>
-                </div>
-              </div>
-              <button class="mt-4 md:mt-0 px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white transition-all active:scale-95">Open</button>
-            </div>
-        </div>
-      </section>
-
-      <section id="policies" class="hidden animate-fade-in-up">
-        <div class="flex items-center justify-between mb-6">
-          <h1 class="text-2xl font-bold flex items-center gap-3">
-             <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400"><i class="fa-solid fa-scale-balanced"></i></div>
-             Policies
-          </h1>
-          <button class="text-xs px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700" onclick="switchSection('dashboard')">Back</button>
-        </div>
-        <div class="glass rounded-2xl overflow-hidden border border-slate-700/50">
-          <table class="w-full text-left border-collapse">
-            <thead class="bg-slate-900/80 text-xs uppercase text-slate-400">
-              <tr><th class="py-4 px-6">Name</th><th class="py-4 px-6">Status</th></tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800 text-sm">
-              <tr>
-                <td class="py-4 px-6">Driver Handbook</td>
-                <td class="py-4 px-6"><span class="text-emerald-400">Acknowledged</span></td>
-              </tr>
-              <tr>
-                <td class="py-4 px-6">Lease Agreement</td>
-                <td class="py-4 px-6"><span class="text-amber-400">Sign Required</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section id="vehicles" class="hidden animate-fade-in-up">
-        <div class="flex items-center justify-between mb-6">
-          <h1 class="text-2xl font-bold flex items-center gap-3">
-             <div class="p-2 bg-rose-500/10 rounded-lg text-rose-400"><i class="fa-solid fa-car"></i></div>
-             Vehicles
-          </h1>
-          <button class="text-xs px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700" onclick="switchSection('dashboard')">Back</button>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div class="glass rounded-2xl p-5 border-l-4 border-emerald-500">
-                <div class="font-bold text-lg">Unit 101</div>
-                <div class="text-sm text-slate-400">Toyota Camry · Active</div>
-            </div>
-            <div class="glass rounded-2xl p-5 border-l-4 border-amber-500 opacity-80">
-                <div class="font-bold text-lg">Unit 202</div>
-                <div class="text-sm text-slate-400">Honda Odyssey · In Shop</div>
-            </div>
-        </div>
-      </section>
-
-      <section id="trips" class="hidden animate-fade-in-up">
-        <div class="flex items-center justify-between mb-6">
-          <h1 class="text-2xl font-bold flex items-center gap-3">
-             <div class="p-2 bg-cyan-500/10 rounded-lg text-cyan-400"><i class="fa-solid fa-route"></i></div>
-             Trip Log
-          </h1>
-          <button class="text-xs px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700" onclick="switchSection('dashboard')">Back</button>
-        </div>
-        <div class="glass rounded-2xl overflow-hidden border border-slate-700/50">
-          <table class="w-full text-left border-collapse">
-            <thead class="bg-slate-900/80 text-xs uppercase text-slate-400">
-              <tr><th class="py-4 px-6">Route</th><th class="py-4 px-6">Type</th><th class="py-4 px-6 text-right">Net</th></tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800 text-sm">
-              <tr>
-                <td class="py-4 px-6">Airport → Downtown</td>
-                <td class="py-4 px-6">Cash</td>
-                <td class="py-4 px-6 text-right font-mono text-emerald-400">$17.50</td>
-              </tr>
-              <tr>
-                <td class="py-4 px-6">Clinic → Home</td>
-                <td class="py-4 px-6">Account</td>
-                <td class="py-4 px-6 text-right font-mono text-emerald-400">$26.80</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-    </main>
   </div>
 
-  <script>
-    const navItems = [
-      { id: "dashboard", label: "Dashboard", icon: "fa-solid fa-grid-2" },
-      { id: "training", label: "Training", icon: "fa-solid fa-video" },
-      { id: "policies", label: "Policies", icon: "fa-solid fa-scale-balanced" },
-      { id: "vehicles", label: "Vehicles", icon: "fa-solid fa-car" },
-      { id: "trips", label: "Trip Log", icon: "fa-solid fa-route" },
-    ];
 
-    function renderSidebar(activeId) {
+  <div id="app-container" class="hidden flex-col h-screen transition-opacity duration-700">
+    
+    <header class="sticky top-0 z-40 glass border-b border-slate-800/50">
+      <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center font-bold text-slate-950 shadow-lg shadow-emerald-500/20">
+            <i class="fa-solid fa-taxi text-lg"></i>
+          </div>
+          <div>
+            <div class="font-bold text-lg leading-tight tracking-tight text-white">Driver Hub</div>
+            <div class="flex items-center gap-2">
+                <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Oregon Taxi</span>
+                <span id="role-badge" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-800 border border-slate-700 uppercase tracking-wider text-emerald-400">Loading</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <div class="hidden md:block relative group w-64">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 group-focus-within:text-emerald-400 transition-colors text-xs"></i>
+                <input type="text" placeholder="Search..." class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg pl-8 pr-3 py-1.5 text-sm focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500/50 outline-none transition-all placeholder-slate-600">
+            </div>
+
+            <div class="flex items-center gap-4 pl-6 border-l border-slate-800/50">
+                <div class="text-right hidden sm:block">
+                    <div id="header-name" class="font-semibold text-sm text-slate-200">User Name</div>
+                    <div id="header-unit" class="text-xs text-slate-500 font-mono">ID #000</div>
+                </div>
+                <button onclick="logout()" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-red-500/10 hover:text-red-400 border border-slate-700 flex items-center justify-center transition-all text-slate-400" title="Sign Out">
+                    <i class="fa-solid fa-power-off text-xs"></i>
+                </button>
+            </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex flex-1 max-w-7xl w-full mx-auto overflow-hidden">
+      <aside class="w-64 hidden md:flex flex-col py-8 pr-6">
+        <nav class="flex-1 space-y-1" id="sidebar-container"></nav>
+        
+        <div class="px-5 py-4 m-2 rounded-2xl bg-slate-900/30 border border-slate-800 backdrop-blur-md">
+           <div class="flex justify-between items-center mb-2">
+             <span class="text-[10px] uppercase font-bold text-slate-500">System Health</span>
+             <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
+           </div>
+           <div class="h-1 w-full bg-slate-800 rounded-full overflow-hidden">
+             <div class="h-full bg-emerald-500 w-full animate-pulse"></div>
+           </div>
+        </div>
+      </aside>
+
+      <main class="flex-1 px-4 py-8 overflow-y-auto relative scroll-smooth" id="main-content">
+        </main>
+    </div>
+  </div>
+
+
+  <script>
+    /* --- DATA STORE --- */
+    const db = {
+      users: [
+        { username: 'admin', password: 'password', role: 'admin', name: 'System Admin', unit: 'HQ-01' },
+        { username: 'owner', password: 'password', role: 'owner', name: 'Deluxe Fleet LLC', unit: 'Owner' },
+        { username: 'driver', password: 'password', role: 'driver', name: 'James Doe', unit: 'Unit #101' }
+      ],
+      // Financials (Global/Driver view)
+      financials: {
+        earnings: 185.40,
+        lease: 1250.00,
+        cash: 45.00,
+        accounts: 85.50,
+        credit: 54.90
+      },
+      // Owner Specific Data
+      ownerStats: {
+        owedToOwner: 570.00,
+        activeDrivers: 3,
+        requests: 1
+      },
+      requests: [
+        { id: 1, driver: "Sarah Smith", type: "Shift Swap", date: "Dec 24", status: "pending" },
+        { id: 2, driver: "James Doe", type: "Maintenance", date: "Dec 20", status: "approved" }
+      ]
+    };
+
+    let currentUser = null;
+
+    /* --- AUTH HANDLERS --- */
+    function fillLogin(u) {
+        document.getElementById('username').value = u;
+        document.getElementById('password').value = 'password';
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      const user = db.users.find(x => x.username === u && x.password === p);
+
+      if (user) {
+        currentUser = user;
+        
+        // Hide Login, Show App
+        const loginScreen = document.getElementById('login-screen');
+        const app = document.getElementById('app-container');
+        
+        loginScreen.style.opacity = '0';
+        setTimeout(() => {
+            loginScreen.classList.add('hidden');
+            app.classList.remove('hidden');
+            app.classList.add('flex');
+            // Header Info
+            document.getElementById('header-name').innerText = user.name;
+            document.getElementById('header-unit').innerText = user.unit;
+            document.getElementById('role-badge').innerText = user.role;
+            
+            initApp();
+        }, 300);
+      } else {
+        document.getElementById('login-error').classList.remove('hidden');
+      }
+    }
+
+    function logout() {
+        location.reload();
+    }
+
+    /* --- NAVIGATION --- */
+    function initApp() {
+      renderSidebar();
+      renderSection('dashboard');
+    }
+
+    function renderSidebar() {
       const container = document.getElementById("sidebar-container");
       container.innerHTML = "";
-      navItems.forEach(item => {
-        const isActive = item.id === activeId;
+      
+      let menu = [];
+      
+      // Define all possible items
+      const items = {
+        dash: { id: "dashboard", label: "Dashboard", icon: "fa-solid fa-grid-2" },
+        fleet: { id: "fleet", label: "Fleet Command", icon: "fa-solid fa-users-viewfinder" },
+        train: { id: "training", label: "Training", icon: "fa-solid fa-graduation-cap" },
+        veh: { id: "vehicles", label: "Vehicles", icon: "fa-solid fa-car-rear" },
+        trip: { id: "trips", label: "Trip Log", icon: "fa-solid fa-route" }
+      };
+
+      // Role Logic
+      if (currentUser.role === 'owner') {
+        menu = [items.dash, items.fleet, items.veh, items.trip];
+      } else if (currentUser.role === 'admin') {
+        menu = [items.dash, items.veh, items.trip, items.train];
+      } else {
+        menu = [items.dash, items.train, items.veh, items.trip];
+      }
+
+      menu.forEach(item => {
         const btn = document.createElement("button");
-        btn.className = `w-full flex items-center gap-4 px-6 py-3 rounded-r-2xl text-sm font-medium transition-all duration-300 relative overflow-hidden group ${isActive ? 'bg-gradient-to-r from-emerald-500/10 to-transparent text-emerald-400 border-l-4 border-emerald-500' : 'text-slate-400 hover:text-white hover:bg-slate-800/50 border-l-4 border-transparent'}`;
-        btn.innerHTML = `<i class="${item.icon} w-5 text-center relative z-10 ${isActive ? 'scale-110' : 'group-hover:scale-110 transition-transform'}"></i><span class="relative z-10">${item.label}</span>`;
-        btn.onclick = () => switchSection(item.id);
+        btn.onclick = () => renderSection(item.id);
+        btn.id = `nav-${item.id}`;
+        // Base styling for sidebar buttons
+        btn.className = `w-full flex items-center gap-4 px-5 py-3.5 rounded-2xl text-sm font-medium transition-all duration-300 relative overflow-hidden group text-slate-400 hover:text-slate-100 hover:bg-slate-800/50`;
+        btn.innerHTML = `
+            <i class="${item.icon} w-5 text-center transition-transform group-hover:scale-110 group-hover:text-emerald-400"></i>
+            <span>${item.label}</span>
+        `;
         container.appendChild(btn);
-      }); 
-    }
-
-    function switchSection(id) {
-      renderSidebar(id);
-      navItems.forEach((i) => {
-        const el = document.getElementById(i.id);
-        if (i.id === id) {
-          el.classList.remove("hidden");
-          el.classList.remove("animate-fade-in-up");
-          void el.offsetWidth;
-          el.classList.add("animate-fade-in-up");
-        } else {
-          el.classList.add("hidden");
-        }
       });
-      document.getElementById('main-content').scrollTop = 0;
     }
 
-    renderSidebar("dashboard");
+    function setActiveNav(id) {
+        document.querySelectorAll('#sidebar-container button').forEach(b => {
+            b.classList.remove('bg-gradient-to-r', 'from-emerald-500/10', 'to-transparent', 'text-emerald-400', 'font-bold');
+            b.classList.add('text-slate-400');
+        });
+        const active = document.getElementById(`nav-${id}`);
+        if(active) {
+            active.classList.add('bg-gradient-to-r', 'from-emerald-500/10', 'to-transparent', 'text-emerald-400', 'font-bold');
+            active.classList.remove('text-slate-400');
+        }
+    }
+
+    /* --- RENDERERS --- */
+    function renderSection(id) {
+        setActiveNav(id);
+        const main = document.getElementById('main-content');
+        main.innerHTML = '';
+        main.className = "flex-1 px-4 py-8 overflow-y-auto relative scroll-smooth animate-fade-in-up";
+
+        if (id === 'dashboard') main.innerHTML = getDashboardHTML();
+        else if (id === 'fleet') main.innerHTML = getFleetHTML();
+        else if (id === 'training') main.innerHTML = getTrainingHTML();
+        else main.innerHTML = getPlaceholderHTML(id);
+    }
+
+    /* --- DASHBOARD GENERATOR --- */
+    function getDashboardHTML() {
+        const isAdmin = currentUser.role === 'admin';
+        const isOwner = currentUser.role === 'owner';
+        
+        // --- OWNER DASHBOARD ---
+        if (isOwner) {
+            return `
+            <div class="flex items-end justify-between mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-white mb-1">Fleet Command</h1>
+                    <p class="text-slate-400 text-sm">Overview for ${currentUser.name}</p>
+                </div>
+                <div class="text-right">
+                    <button class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 rounded-lg text-sm font-bold shadow-lg shadow-emerald-500/20 transition-all active:scale-95">
+                        <i class="fa-solid fa-plus mr-2"></i>New Shift
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="glass p-6 rounded-3xl card-hover border-l-4 border-emerald-500">
+                    <div class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Total Owed To Me</div>
+                    <div class="text-4xl font-bold text-white">$${db.ownerStats.owedToOwner.toFixed(2)}</div>
+                </div>
+                <div class="glass p-6 rounded-3xl card-hover border-l-4 border-blue-500">
+                    <div class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Active Drivers</div>
+                    <div class="text-4xl font-bold text-white">${db.ownerStats.activeDrivers}</div>
+                </div>
+                <div class="glass p-6 rounded-3xl card-hover border-l-4 border-purple-500">
+                    <div class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Pending Requests</div>
+                    <div class="text-4xl font-bold text-white">${db.ownerStats.requests}</div>
+                </div>
+            </div>
+
+            <h2 class="text-lg font-bold text-white mb-4">Recent Requests</h2>
+            <div class="glass rounded-3xl overflow-hidden border border-slate-700/50">
+                ${db.requests.map(req => `
+                    <div class="p-4 border-b border-slate-700/50 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs text-slate-300">
+                                ${req.driver.charAt(0)}
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm text-slate-200">${req.driver}</div>
+                                <div class="text-xs text-slate-500">${req.type} · ${req.date}</div>
+                            </div>
+                        </div>
+                        ${req.status === 'pending' 
+                           ? `<div class="flex gap-2">
+                                <button class="text-xs px-3 py-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-lg hover:bg-emerald-500 hover:text-black transition-colors">Approve</button>
+                              </div>` 
+                           : `<span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Approved</span>`
+                        }
+                    </div>
+                `).join('')}
+            </div>
+            `;
+        }
+
+        // --- DRIVER / ADMIN DASHBOARD ---
+        
+        // Edit Button Logic
+        const edit = (key) => isAdmin ? `<button onclick="editFinancial('${key}')" class="ml-2 text-slate-500 hover:text-emerald-400 transition-colors" title="Edit Value"><i class="fa-solid fa-pencil text-sm"></i></button>` : '';
+
+        return `
+            <div class="flex items-end justify-between mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-white mb-1">Dashboard</h1>
+                    <p class="text-slate-400 text-sm">Welcome back, ${currentUser.name}</p>
+                </div>
+                <div class="px-4 py-2 bg-slate-800/50 rounded-full border border-slate-700 text-xs font-mono text-slate-400">
+                    ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="glass p-6 rounded-3xl relative overflow-hidden group card-hover">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="p-1.5 bg-emerald-500/20 rounded-lg text-emerald-400"><i class="fa-solid fa-wallet"></i></div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Earnings</span>
+                            ${edit('earnings')}
+                        </div>
+                        <div class="text-4xl font-bold text-white tracking-tight">$${db.financials.earnings.toFixed(2)}</div>
+                        <div class="mt-3 flex items-center gap-2 text-xs font-medium text-emerald-400">
+                            <span class="bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">+12.5%</span>
+                            <span class="text-slate-500">vs yesterday</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass p-6 rounded-3xl relative overflow-hidden group card-hover">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="p-1.5 bg-amber-500/20 rounded-lg text-amber-400"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Lease Balance</span>
+                            ${edit('lease')}
+                        </div>
+                        <div class="text-4xl font-bold text-white tracking-tight">$${db.financials.lease.toFixed(2)}</div>
+                        <div class="mt-3 flex items-center gap-2 text-xs font-medium text-amber-400">
+                            <span class="bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Action Required</span>
+                            <span class="text-slate-500">Due Friday</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass p-6 rounded-3xl relative overflow-hidden group card-hover cursor-pointer" onclick="renderSection('training')">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="p-1.5 bg-blue-500/20 rounded-lg text-blue-400"><i class="fa-solid fa-graduation-cap"></i></div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Training</span>
+                        </div>
+                        <div class="text-2xl font-bold text-white tracking-tight mb-1">1 Module Pending</div>
+                        <div class="text-sm text-slate-400">New Driver Orientation</div>
+                        <button class="mt-4 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg transition-colors shadow-lg shadow-blue-500/20">Watch Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 pl-1">Earnings Breakdown</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                 <div class="glass p-4 rounded-2xl flex items-center gap-4 hover:bg-slate-800/40 transition-colors border-l-2 border-emerald-500/50">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-emerald-400"><i class="fa-solid fa-money-bill"></i></div>
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase font-bold">Cash</div>
+                        <div class="text-lg font-bold text-white">$${db.financials.cash.toFixed(2)}</div>
+                    </div>
+                 </div>
+                 <div class="glass p-4 rounded-2xl flex items-center gap-4 hover:bg-slate-800/40 transition-colors border-l-2 border-blue-500/50">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-blue-400"><i class="fa-solid fa-building"></i></div>
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase font-bold">Accounts</div>
+                        <div class="text-lg font-bold text-white">$${db.financials.accounts.toFixed(2)}</div>
+                    </div>
+                 </div>
+                 <div class="glass p-4 rounded-2xl flex items-center gap-4 hover:bg-slate-800/40 transition-colors border-l-2 border-purple-500/50">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-purple-400"><i class="fa-solid fa-credit-card"></i></div>
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase font-bold">Credit/Debit</div>
+                        <div class="text-lg font-bold text-white">$${db.financials.credit.toFixed(2)}</div>
+                    </div>
+                 </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass p-6 rounded-3xl card-hover flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-slate-700/50 pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400"><i class="fa-solid fa-book-open"></i></div>
+                            <h3 class="font-bold text-lg">Library</h3>
+                        </div>
+                        <button onclick="renderSection('training')" class="text-xs text-slate-400 hover:text-white transition-colors">View All <i class="fa-solid fa-chevron-right ml-1"></i></button>
+                    </div>
+                    <div class="space-y-3">
+                         <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 hover:bg-slate-700/40 transition-colors cursor-pointer group">
+                             <div class="flex items-center gap-3">
+                                 <div class="w-8 h-8 rounded-full bg-slate-700 group-hover:bg-slate-600 flex items-center justify-center text-xs text-slate-300"><i class="fa-solid fa-play"></i></div>
+                                 <span class="text-sm font-medium text-slate-200">New Driver Orientation</span>
+                             </div>
+                             <span class="text-[10px] font-bold bg-red-500/10 text-red-400 px-2 py-1 rounded">REQUIRED</span>
+                         </div>
+                         <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 hover:bg-slate-700/40 transition-colors cursor-pointer group">
+                             <div class="flex items-center gap-3">
+                                 <div class="w-8 h-8 rounded-full bg-slate-700 group-hover:bg-slate-600 flex items-center justify-center text-xs text-slate-300"><i class="fa-solid fa-file-pdf"></i></div>
+                                 <span class="text-sm font-medium text-slate-200">Airport Procedures PDF</span>
+                             </div>
+                             <span class="text-[10px] font-bold bg-slate-700 text-slate-400 px-2 py-1 rounded">REF</span>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="glass p-6 rounded-3xl card-hover flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-slate-700/50 pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400"><i class="fa-solid fa-route"></i></div>
+                            <h3 class="font-bold text-lg">Recent Trip</h3>
+                        </div>
+                        <button onclick="renderSection('trips')" class="text-xs text-slate-400 hover:text-white transition-colors">Log <i class="fa-solid fa-chevron-right ml-1"></i></button>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-4 rounded-xl border border-slate-700/50">
+                        <div class="flex justify-between items-start mb-2">
+                             <div class="text-xs text-slate-400 font-mono">10:32 AM</div>
+                             <div class="font-bold text-emerald-400">$22.50</div>
+                        </div>
+                        <div class="text-sm font-medium text-white mb-1">Airport <i class="fa-solid fa-arrow-right text-xs text-slate-500 mx-1"></i> Downtown</div>
+                        <div class="text-xs text-slate-500">Cash Trip · 4.2 miles</div>
+                    </div>
+
+                    <button onclick="renderSection('trips')" class="mt-auto w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-bold text-slate-300 transition-colors">View Full Log</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function getTrainingHTML() {
+        return `
+            <h1 class="text-3xl font-bold text-white mb-6">Library & Training</h1>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="glass p-6 rounded-3xl flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-full md:w-64 h-36 bg-slate-800 rounded-2xl flex items-center justify-center relative overflow-hidden group cursor-pointer">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
+                        <i class="fa-solid fa-play-circle text-5xl text-white/80 group-hover:text-emerald-400 group-hover:scale-110 transition-all z-10"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30">REQUIRED</span>
+                             <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i> 15 min</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-white mb-2">New Driver Orientation</h2>
+                        <p class="text-sm text-slate-400 mb-4">Complete the safety module to unlock airport pickups.</p>
+                        <button class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2 rounded-lg text-sm font-bold transition-colors">Start Module</button>
+                    </div>
+                </div>
+                <div class="glass p-6 rounded-3xl flex items-center justify-center text-slate-500">
+                    More training modules loading...
+                </div>
+            </div>
+        `;
+    }
+    
+    function getFleetHTML() {
+        return `<div class="p-8 text-center"><i class="fa-solid fa-users-gear text-4xl text-slate-600 mb-4"></i><h2 class="text-xl font-bold text-slate-400">Fleet Management Module</h2><p class="text-slate-500">This view is exclusive to Owners.</p></div>`;
+    }
+
+    function getPlaceholderHTML(title) {
+        return `<div class="p-8 text-center"><h2 class="text-xl font-bold text-slate-400">${title}</h2><p class="text-slate-500">Module under construction.</p></div>`;
+    }
+
+    /* --- ADMIN EDIT LOGIC --- */
+    function editFinancial(key) {
+        if (currentUser.role !== 'admin') return;
+        
+        let label = key === 'earnings' ? 'Earnings' : 'Lease Balance';
+        let current = db.financials[key];
+        
+        let newVal = prompt(`Admin Edit: Enter new ${label}`, current);
+        if (newVal && !isNaN(newVal)) {
+            db.financials[key] = parseFloat(newVal);
+            renderSection('dashboard'); // Re-render to show update
+        }
+    }
   </script>
 </body>
 </html>
